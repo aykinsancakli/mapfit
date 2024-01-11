@@ -1,0 +1,618 @@
+:root {
+  --color-brand--1: #ffb545;
+  --color-brand--2: #00c46a;
+
+  --color-dark--1: #2d3439;
+  --color-dark--2: #42484d;
+  --color-light--1: #aaa;
+  --color-light--2: #ececec;
+  --color-light--3: rgb(214, 222, 224);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  color: var(--color-light--2);
+  font-weight: 400;
+  line-height: 1.6;
+  height: 100vh;
+  overscroll-behavior-y: none;
+  background-color: #fff;
+  padding: 2.5rem;
+  display: flex;
+}
+
+/* GENERAL */
+a:link,
+a:visited {
+  color: var(--color-brand--1);
+}
+
+/* SIDEBAR */
+.sidebar {
+  flex-basis: 50rem;
+  background-color: var(--color-dark--1);
+  padding: 3rem 5rem 4rem 5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 1.2rem;
+}
+
+.logo {
+  height: 5.2rem;
+  height: 7.2rem;
+  align-self: center;
+  margin-bottom: 2rem;
+}
+
+.workouts {
+  list-style: none;
+  height: 77vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.workouts::-webkit-scrollbar {
+  width: 4px; /* Width of the scrollbar */
+}
+
+.workouts::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(to bottom, #ffb545, #00c46a);
+  border-radius: 12px;
+}
+
+.workout {
+  background-color: var(--color-dark--2);
+  border-radius: 5px;
+  padding: 1.5rem 2.25rem;
+  margin-bottom: 1.75rem;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.75rem 1.5rem;
+
+  transition: all 0.15s;
+}
+.workout--running {
+  border-left: 5px solid var(--color-brand--2);
+}
+.workout--cycling {
+  border-left: 5px solid var(--color-brand--1);
+}
+
+.workout__title {
+  font-size: 1.7rem;
+  font-weight: 600;
+  grid-column: 1 / -1;
+  grid-column: 1/4;
+  align-self: center;
+}
+
+.workout-title-date {
+  grid-column: 1/4;
+}
+
+.workout__date {
+  font-size: 1.4rem;
+}
+
+.weather-bg {
+  background-color: rgba(255, 255, 255, 0.21);
+  border-radius: 5px;
+  padding: 0.2rem 0.2rem;
+}
+
+.text-bg {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.weather__icon {
+  display: inline-block;
+  height: 3rem;
+  transform: scale(2) translate(10%, 5%);
+}
+
+.weather__degree {
+  display: inline-block;
+  transform: translate(40%, -90%);
+  font-size: 1.1rem;
+  color: #cfd3cf;
+}
+
+.workout__weather {
+  font-size: 1.2rem;
+  width: fit-content;
+  color: #ececec;
+}
+
+.workout__details {
+  display: flex;
+  align-items: baseline;
+}
+
+.workout__icon {
+  font-size: 1.8rem;
+  margin-right: 0.2rem;
+  height: 0.28rem;
+}
+
+.workout__value {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.workout__unit {
+  font-size: 1.1rem;
+  color: var(--color-light--1);
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.workout button {
+  border: none;
+  color: #ececec;
+  padding: 0.4rem;
+  border-radius: 5px;
+  font-family: inherit;
+  cursor: pointer;
+  width: 8.04rem;
+  transition: all 0.15s;
+}
+
+.delete__btn {
+  grid-row: 4;
+  grid-column: 4;
+  justify-self: start;
+  background-color: rgb(186, 74, 74);
+}
+
+.delete__btn:hover {
+  background-color: rgb(157, 60, 60);
+}
+
+.edit__btn {
+  grid-row: 4/5;
+  grid-column: 3/4;
+  justify-self: end;
+}
+
+.edit__btn.running {
+  background-color: var(--color-brand--2);
+}
+
+.edit__btn.running:hover {
+  background-color: #1c9b60;
+  /* transform: scale(1.05); */
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+}
+
+.edit__btn.cycling {
+  background-color: var(--color-brand--1);
+}
+
+.edit__btn.cycling:hover {
+  background-color: #d89531;
+  /* transform: scale(1.05); */
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+}
+
+/* DELETE WORKOUT WARNING POPUP */
+.warning,
+.input-validation-popup,
+.delete-all-workouts-popup {
+  width: 43rem;
+  min-height: 48rem;
+  border-radius: 11px;
+  background-color: #c0d1c9dd;
+  background-image: linear-gradient(to bottom right, #2d3439df, #42484d74);
+  background-color: #363535e8;
+
+  box-shadow: 0 2.4rem 2.4rem rgba(0, 0, 0, 0.15);
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  opacity: 0;
+  filter: blur(10px);
+  pointer-events: none;
+  visibility: hidden;
+  transition: all 0.7s;
+
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+  z-index: 100;
+}
+
+.warning-text,
+.input-validation-text,
+.delete-all-workouts-text {
+  font-family: inherit;
+  font-size: 2rem;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #42484d;
+
+  background-color: rgba(246, 248, 247, 0.204);
+  padding: 1rem 2rem;
+  border-radius: 5px;
+}
+
+.warning-text {
+  background-color: rgba(224, 76, 76, 0.85);
+  color: #eee;
+}
+
+.btn-box {
+  display: flex;
+  gap: 1rem;
+}
+
+.warning-btn,
+.delete-all-workouts-btn {
+  padding: 1rem;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  color: #fff;
+  color: #ececec;
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.warning-cancel--btn,
+.delete-all-cancel-btn {
+  background-color: var(--color-dark--1);
+  background-color: #fff;
+  color: #26292c;
+}
+
+.warning-cancel--btn:hover,
+.delete-all-cancel-btn:hover {
+  transform: scale(1.05);
+  background-color: #eee;
+}
+
+.warning-delete--btn,
+.delete-all-workouts-delete-btn {
+  background-color: rgb(186, 74, 74);
+}
+
+.warning-delete--btn:hover,
+.delete-all-workouts-delete-btn:hover {
+  background-color: rgb(157, 60, 60);
+  transform: scale(1.05);
+}
+
+.open .warning {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  filter: blur(0);
+}
+
+.logo-wrapper,
+.input-validation-logo-wrapper,
+.delete-all-workouts-logo-wrapper {
+  background-image: linear-gradient(to right, #ede7e755, #f1efef14);
+  padding: 0.5rem 1.2rem;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+.warning-content-wrapper,
+.input-validation-content-wrapper,
+.delete-all-workouts-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: fit-content;
+  align-self: center;
+}
+
+.logo-warning,
+.logo-input-validation,
+.logo-delete-all-workouts {
+  width: 14rem;
+}
+
+/* INPUT VALIDATION POPUP */
+
+.input-validation-popup.openpopup {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  filter: blur(0);
+}
+
+.input-validation-text,
+.delete-all-workouts-text {
+  font-size: 2rem;
+  background-color: rgba(224, 76, 76, 0.85);
+
+  padding: 2rem 1rem;
+  border-radius: 5px;
+  margin-top: 2.4rem;
+  color: #eee;
+  width: fit-content;
+}
+
+.delete-all-workouts-text {
+  font-size: 2.4rem;
+  padding: 1rem 2rem;
+  margin-top: 0;
+}
+
+/* DELETE ALL WORKOUTS POPUP */
+.delete-all-workouts-popup.openpopup {
+  opacity: 1;
+  pointer-events: visible;
+  visibility: visible;
+  filter: blur(0);
+}
+
+/* FUNCTIONS */
+.functions {
+  display: flex;
+  gap: 0.5rem;
+  align-self: flex-end;
+  margin-right: 4px;
+}
+
+.delete-all-btn,
+.sort-btn,
+.find-me-btn,
+.show-all-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffffff1c;
+  color: #ececec;
+  font-size: 1.4rem;
+  cursor: pointer;
+  visibility: visible;
+  transition: background-color 0.15s, opacity 1s, blur 1s;
+}
+
+.delete-all-btn.hide,
+.sort-btn.hide,
+.find-me-btn.hide,
+.show-all-btn.hide {
+  opacity: 0;
+  filter: blur(3px);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.delete-all-btn:hover,
+.sort-btn:hover,
+.find-me-btn:hover,
+.show-all-btn:hover {
+  background-color: #ffffff2f;
+}
+
+.sort-btn.active {
+  background-color: #ffffff2f;
+}
+
+.delete-all-btn {
+  background-color: rgba(224, 76, 76, 0.3);
+}
+
+.delete-all-btn:hover {
+  background-color: rgba(224, 76, 76, 0.4);
+}
+
+.form {
+  background-color: var(--color-dark--2);
+  border-radius: 5px;
+  padding: 1.5rem 2.75rem;
+  margin-bottom: 1.75rem;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 2.5rem;
+
+  /* Match height and activity boxes */
+  height: 9.25rem;
+  transition: all 0.5s, transform 1ms;
+}
+
+.form.hidden {
+  transform: translateY(-30rem);
+  height: 0;
+  padding: 0 2.25rem;
+  margin-bottom: 0;
+  opacity: 0;
+}
+
+.form__row {
+  display: flex;
+  align-items: center;
+}
+
+.form__row--hidden {
+  display: none;
+}
+
+.form__label {
+  flex: 0 0 50%;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.form__input {
+  width: 100%;
+  padding: 0.3rem 1.1rem;
+  font-family: inherit;
+  font-size: 1.4rem;
+  border: none;
+  border-radius: 3px;
+  background-color: var(--color-light--3);
+  transition: all 0.2s;
+}
+
+.form__input:focus {
+  outline: none;
+  background-color: #fff;
+}
+
+.form__btn {
+  display: none;
+}
+
+.copyright {
+  margin-top: auto;
+  font-size: 1.3rem;
+  text-align: center;
+  color: var(--color-light--1);
+}
+
+.twitter-link:link,
+.twitter-link:visited {
+  color: var(--color-light--1);
+  transition: all 0.2s;
+}
+
+.twitter-link:hover,
+.twitter-link:active {
+  color: var(--color-light--2);
+}
+
+/* MAP */
+#map {
+  flex: 1;
+  height: 100%;
+  background-color: var(--color-light--1);
+  z-index: 1;
+}
+
+/* Popup width is defined in JS using options */
+.leaflet-popup .leaflet-popup-content-wrapper {
+  background-color: var(--color-dark--1);
+  color: var(--color-light--2);
+  border-radius: 5px;
+  padding-right: 0.6rem;
+}
+
+.leaflet-popup .leaflet-popup-content {
+  font-size: 1.5rem;
+}
+
+.leaflet-popup .leaflet-popup-tip {
+  background-color: var(--color-dark--1);
+}
+
+.running-popup .leaflet-popup-content-wrapper {
+  border-left: 5px solid var(--color-brand--2);
+}
+.cycling-popup .leaflet-popup-content-wrapper {
+  border-left: 5px solid var(--color-brand--1);
+}
+
+/* WELCOME POPUP */
+.welcome-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  transition: all 0.5s;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.welcome-page-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 60rem;
+  background-color: #363535e8;
+  padding: 5rem 6rem;
+  box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: all 0.5s;
+  border-radius: 11px;
+  display: flex;
+  flex-direction: column;
+}
+
+.welcome-popup h2 {
+  color: #00c46a;
+  color: #ececec;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.welcome-popup p {
+  color: #555;
+  color: #eee;
+  margin-bottom: 1.6rem;
+  font-size: 1.5rem;
+}
+
+.welcome-popup ol {
+  text-align: left;
+  margin-bottom: 1.6rem;
+}
+
+.welcome-popup li {
+  color: #777;
+  color: #ccc;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  margin-bottom: 1.2rem;
+}
+
+.close-welcome-btn {
+  background-color: #2ecc71;
+  /* color: white; */
+  color: #ececec;
+  padding: 1.5rem 3rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: inherit;
+  /* transition: background-color 0.3s; */
+  transition: background-color 0.15s;
+  box-shadow: 0 1.2rem 2.4rem rgba(0, 0, 0, 0.15);
+}
+
+.close-welcome-btn:hover {
+  background-color: #27ae60;
+}
+
+/* Show the Welcome Popup */
+.welcome-popup.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
