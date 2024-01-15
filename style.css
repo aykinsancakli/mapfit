@@ -487,6 +487,10 @@ a:visited {
   color: var(--color-light--1);
 }
 
+.copy-creators {
+  font-size: 1rem;
+}
+
 .twitter-link:link,
 .twitter-link:visited {
   color: var(--color-light--1);
