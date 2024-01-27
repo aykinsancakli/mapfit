@@ -491,14 +491,14 @@ a:visited {
   font-size: 1rem;
 }
 
-.twitter-link:link,
-.twitter-link:visited {
+.copyright-ref:link,
+.copyright-ref:visited {
   color: var(--color-light--1);
   transition: all 0.2s;
 }
 
-.twitter-link:hover,
-.twitter-link:active {
+.copyright-ref:hover,
+.copyright-ref:active {
   color: var(--color-light--2);
 }
 
